@@ -11,9 +11,9 @@ export default function Portfolio() {
     phone: "9838303889",
     location: "New Delhi, India",
     social: {
-      linkedin: "https://linkedin.com/in/your-profile", // Replace with your actual LinkedIn
-      github: "https://github.com/your-username", // Replace with your actual GitHub
-      leetcode: "https://leetcode.com/your-username/" // Replace with your actual Leetcode
+      linkedin: "https://www.linkedin.com/in/ayush-srivastava-114b58215/", // Replace with your actual LinkedIn
+      github: "https://github.com/CodeWithAyush2710", // Replace with your actual GitHub
+      leetcode: "https://leetcode.com/u/ayush_sri_india/" // Replace with your actual Leetcode
     },
     profilePicture: "https://placehold.co/400x400/1a1a1a/ffffff?text=AS",
   };
@@ -71,21 +71,21 @@ export default function Portfolio() {
       description: "A full-stack web application using Next.js, React, and Tailwind CSS for efficient AI prompt management. Implemented robust CRUD functionalities for prompts, powered by MongoDB and secured with Google Authentication.",
       image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Promptify",
       liveUrl: "#", // Add your live URL
-      githubUrl: "#" // Add your GitHub URL
+      githubUrl: "https://github.com/CodeWithAyush2710/promptify" // Add your GitHub URL
     },
     {
       title: "Synaptic-AI",
       description: "An AI-powered suite of tools for tasks such as cold email generation and code review. Implemented a responsive frontend with React and a robust Node.js backend, integrating Google Gemini's AI services.",
       image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Synaptic-AI",
       liveUrl: null,
-      githubUrl: "#" // Add your GitHub URL
+      githubUrl: "https://github.com/CodeWithAyush2710/Synaptics-AI" // Add your GitHub URL
     },
     {
       title: "Research-Paper-Analyzer",
       description: "Developed a Research Paper Analyzer using Python and an AI multi-agent framework (AutoGen) to automate the analysis and summarization of research papers from the arXiv API. Deployed with Streamlit.",
       image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Analyzer",
       liveUrl: null,
-      githubUrl: "#" // Add your GitHub URL
+      githubUrl: "https://github.com/CodeWithAyush2710/Financial_Agentic_AI" // Add your GitHub URL
     },
   ];
   
