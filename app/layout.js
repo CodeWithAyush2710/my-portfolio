@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata = {
   title: "Ayush Srivastava | Full Stack Developer",
   description: "Portfolio of Ayush Srivastava, a Full Stack Developer specializing in MERN stack.",
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({ children }) {
