@@ -1,280 +1,146 @@
+import { Mail, Github, Linkedin, Code, ArrowRight } from 'lucide-react';
+import { user, projects } from '@/lib/data';
+import Link from 'next/link';
+import dbConnect from '@/lib/db';
+import Post from '@/models/Post';
 
-import { Mail, Github, Linkedin, Smartphone, Code, Server, Briefcase, GraduationCap, Award, Users } from 'lucide-react';
+export const revalidate = 60; // Revalidate ISR every 60 seconds
 
-// Main App Component
-export default function Portfolio() {
-  const user = {
-    name: "Ayush Srivastava",
-    title: "Full Stack Developer",
-    summary: "Highly motivated B.Tech. student in Information Technology with a strong foundation in C++ and Data Structures & Algorithms (DSA). Proficient in front-end technologies with hands-on experience in ReactJS, HTML, CSS, and JavaScript, gained through a Frontend Developer internship. Eager to leverage emerging technologies to contribute to innovative projects.",
-    email: "sriayush2710@gmail.com",
-    phone: "9838303889",
-    location: "New Delhi, India",
-    social: {
-      linkedin: "https://www.linkedin.com/in/ayush-srivastava-114b58215/", // Replace with your actual LinkedIn
-      github: "https://github.com/CodeWithAyush2710", // Replace with your actual GitHub
-      leetcode: "https://leetcode.com/u/ayush_sri_india/" // Replace with your actual Leetcode
-    },
-    profilePicture: "https://placehold.co/400x400/1a1a1a/ffffff?text=AS",
-  };
+async function getLatestPosts() {
+  try {
+    await dbConnect();
+    const posts = await Post.find({}).sort({ date: -1 }).limit(4).lean();
+    return posts.map(post => ({
+      ...post,
+      _id: post._id.toString(),
+      date: post.date ? post.date.toISOString() : null,
+      createdAt: post.createdAt ? post.createdAt.toISOString() : null,
+      updatedAt: post.updatedAt ? post.updatedAt.toISOString() : null,
+    }));
+  } catch (e) {
+    console.error("Failed to fetch posts for home:", e);
+    return [];
+  }
+}
 
-  const skills = [
-    { name: "C++", icon: <Code size={20} /> },
-    { name: "JavaScript", icon: <Code size={20} /> },
-    { name: "React.js", icon: <Code size={20} /> },
-    { name: "Next.js", icon: <Code size={20} /> },
-    { name: "Node.js", icon: <Server size={20} /> },
-    { name: "Express.js", icon: <Server size={20} /> },
-    { name: "MongoDB", icon: <Server size={20} /> },
-    { name: "MySQL", icon: <Server size={20} /> },
-    { name: "HTML", icon: <Code size={20} /> },
-    { name: "CSS", icon: <Code size={20} /> },
-    { name: "Tailwind CSS", icon: <Code size={20} /> },
-    { name: "Git", icon: <Code size={20} /> },
-    { name: "Data Structures & Algorithms", icon: <Code size={20} /> },
-    { name: "OOP's", icon: <Code size={20} /> },
-  ];
-
-  const experience = [
-    {
-      role: "Frontend Developer Intern",
-      company: "IBM (CSR-BOX)",
-      period: "June 2024 - August 2024",
-      description: [
-        "Collaborated with the Frontend Team to develop and enhance key features of the website using HTML, CSS, JavaScript, and ReactJs.",
-        "Contributed to the development of a sustainable model aimed at creating a network, improving community engagement.",
-      ],
-      icon: <Briefcase />
-    }
-  ];
-
-  const education = [
-     {
-      institution: "Bharati Vidyapeeth's College of Engineering (GGSIPU), New Delhi",
-      degree: "B.Tech in Information Technology",
-      period: "2022 - 2026 (Ongoing)",
-      details: "CGPA: 8.34",
-      icon: <GraduationCap />
-    },
-    {
-      institution: "B.B.S. International School, Prayagraj, India",
-      degree: "Higher Secondary (Class XII)",
-      period: "2020 - 2021",
-      details: "Percentage: 83.2%",
-      icon: <GraduationCap />
-    },
-  ];
-
-  const projects = [
-    {
-      title: "Promptify",
-      description: "A full-stack web application using Next.js, React, and Tailwind CSS for efficient AI prompt management. Implemented robust CRUD functionalities for prompts, powered by MongoDB and secured with Google Authentication.",
-      image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Promptify",
-      liveUrl: "#", // Add your live URL
-      githubUrl: "https://github.com/CodeWithAyush2710/promptify" // Add your GitHub URL
-    },
-    {
-      title: "Synaptic-AI",
-      description: "An AI-powered suite of tools for tasks such as cold email generation and code review. Implemented a responsive frontend with React and a robust Node.js backend, integrating Google Gemini's AI services.",
-      image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Synaptic-AI",
-      liveUrl: null,
-      githubUrl: "https://github.com/CodeWithAyush2710/Synaptics-AI" // Add your GitHub URL
-    },
-    {
-      title: "Research-Paper-Analyzer",
-      description: "Developed a Research Paper Analyzer using Python and an AI multi-agent framework (AutoGen) to automate the analysis and summarization of research papers from the arXiv API. Deployed with Streamlit.",
-      image: "https://placehold.co/600x400/1a1a1a/ffffff?text=Analyzer",
-      liveUrl: null,
-      githubUrl: "https://github.com/CodeWithAyush2710/Financial_Agentic_AI" // Add your GitHub URL
-    },
-  ];
-  
-  const achievements = [
-    {
-      title: "Girl-Script Summer of Code (GSSOC) 2024",
-      description: "Actively contributed to enhancing open-source projects.",
-      icon: <Award />
-    },
-    {
-      title: "BVP-GDSC Hackathon 2024",
-      description: "Participated in the hackathon, developing innovative solutions.",
-      icon: <Award />
-    }
-  ];
-
-  const responsibilities = [
-      {
-          role: "Vice-head, Content Writing",
-          organization: "BVP-Horizon",
-          period: "Oct 2023 - June 2025",
-          description: "Managing and organizing events while leading a team of 10-15 members.",
-          icon: <Users />
-      },
-      {
-          role: "Executive, Outreach Department",
-          organization: "BVP-Code Chef",
-          period: "Oct 2023 - June 2025",
-          description: "Responsible for event publicity and community engagement.",
-          icon: <Users />
-      }
-  ];
-
+export default async function Home() {
+  const latestPosts = await getLatestPosts();
+  const recentProjects = projects.slice(0, 3);
 
   return (
-    <div className="bg-gray-900 text-gray-200 font-sans leading-relaxed">
-      {/* Header & Hero Section */}
-      <header className="bg-gray-900 sticky top-0 z-50 backdrop-filter backdrop-blur-lg bg-opacity-30 border-b border-gray-700">
-          <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-              <a href="#" className="text-2xl font-bold text-white tracking-wider">{user.name}</a>
-              <div className="hidden md:flex space-x-6">
-                  <a href="#about" className="hover:text-teal-400 transition-colors">About</a>
-                  <a href="#experience" className="hover:text-teal-400 transition-colors">Experience</a>
-                  <a href="#projects" className="hover:text-teal-400 transition-colors">Projects</a>
-                  <a href="#skills" className="hover:text-teal-400 transition-colors">Skills</a>
-                  <a href="#contact" className="bg-teal-500 hover:bg-teal-600 text-gray-900 font-bold py-2 px-4 rounded-lg transition-colors">Contact</a>
-              </div>
-          </nav>
-      </header>
-      
-      <main className="container mx-auto px-6 py-12 md:py-20">
-        <section id="hero" className="flex flex-col md:flex-row items-center justify-between min-h-[70vh]">
-          <div className="md:w-1/2 mb-10 md:mb-0 text-center md:text-left">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-              Hi, I'm <span className="text-teal-400">{user.name}</span>
+    <div className="space-y-24">
+      {/* Hero Section */}
+      <section className="min-h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 pt-10">
+        <div className="flex-1 space-y-6 text-center md:text-left">
+          <div>
+            <h2 className="text-xl text-teal-600 dark:text-teal-400 font-medium mb-2">Hello, I'm</h2>
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-zinc-900 dark:text-white mb-4">
+              {user.name}
             </h1>
-            <p className="text-xl md:text-2xl text-gray-400 mb-6">{user.title}</p>
-            <p className="text-gray-300 mb-8 max-w-xl mx-auto md:mx-0">{user.summary}</p>
-            <div className="flex justify-center md:justify-start space-x-4">
-              <a href={user.social.github} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-400 transition-colors"><Github size={28} /></a>
-              <a href={user.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-400 transition-colors"><Linkedin size={28} /></a>
-              <a href={`mailto:${user.email}`} className="text-gray-400 hover:text-teal-400 transition-colors"><Mail size={28} /></a>
-              <a href={user.social.leetcode} target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-teal-400 transition-colors"><Code size={28} /></a>
-            </div>
+            <p className="text-2xl md:text-3xl text-zinc-600 dark:text-zinc-300 font-light">
+              {user.title}
+            </p>
           </div>
-          <div className="md:w-1/3">
-            <img src={user.profilePicture} alt={user.name} className="rounded-full border-4 border-teal-500 shadow-lg w-64 h-64 md:w-80 md:h-80 mx-auto object-cover"/>
-          </div>
-        </section>
 
-        {/* About Section */}
-        <section id="about" className="py-20">
-            <h2 className="text-3xl font-bold text-center mb-12 text-white">About Me</h2>
-            <div className="grid md:grid-cols-5 gap-10 items-start">
-                <div className="md:col-span-3 bg-gray-800 p-8 rounded-xl shadow-lg">
-                    <h3 className="text-2xl font-semibold mb-4 text-teal-400">Education</h3>
-                    <div className="relative border-l-2 border-teal-500 pl-6 space-y-8">
-                        {education.map((edu, index) => (
-                            <div key={index} className="relative">
-                                <div className="absolute -left-[34px] top-1.5 h-4 w-4 rounded-full bg-teal-500"></div>
-                                <p className="font-bold text-white">{edu.institution}</p>
-                                <p className="text-gray-400">{edu.degree}</p>
-                                <p className="text-sm text-gray-500">{edu.period}</p>
-                                <p className="text-sm text-gray-300">{edu.details}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-                <div className="md:col-span-2 space-y-8">
-                    <div className="bg-gray-800 p-8 rounded-xl shadow-lg">
-                        <h3 className="text-2xl font-semibold mb-4 text-teal-400 flex items-center"><Award className="mr-2"/> Achievements</h3>
-                        <ul className="list-disc list-inside space-y-2 text-gray-300">
-                             {achievements.map((item, index) => <li key={index}><b>{item.title}:</b> {item.description}</li>)}
-                        </ul>
-                    </div>
-                     <div className="bg-gray-800 p-8 rounded-xl shadow-lg">
-                        <h3 className="text-2xl font-semibold mb-4 text-teal-400 flex items-center"><Users className="mr-2"/> Responsibilities</h3>
-                        <ul className="space-y-4 text-gray-300">
-                            {responsibilities.map((item, index) => (
-                                <li key={index}>
-                                    <p className="font-bold">{item.role} @ {item.organization}</p>
-                                    <p className="text-sm text-gray-500">{item.period}</p>
-                                    <p className="text-sm">{item.description}</p>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
+          <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-xl mx-auto md:mx-0 leading-relaxed">
+            {user.summary}
+          </p>
 
-        {/* Experience Section */}
-        <section id="experience" className="py-20">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Work Experience</h2>
-          <div className="max-w-3xl mx-auto">
-            <div className="relative border-l-2 border-teal-500 pl-10">
-              {experience.map((job, index) => (
-                <div key={index} className="mb-12 relative">
-                  <div className="absolute -left-[48px] top-0 bg-gray-800 p-2 rounded-full border-2 border-teal-500">{job.icon}</div>
-                  <div className="bg-gray-800 p-6 rounded-xl shadow-lg">
-                    <h3 className="text-2xl font-bold text-teal-400">{job.role}</h3>
-                    <p className="text-lg text-gray-400 mb-2">{job.company}</p>
-                    <p className="text-sm text-gray-500 mb-4">{job.period}</p>
-                    <ul className="list-disc list-inside space-y-2 text-gray-300">
-                      {job.description.map((point, i) => <li key={i}>{point}</li>)}
-                    </ul>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="flex justify-center md:justify-start space-x-6 pt-4">
+            <SocialLink href={user.social.github} icon={<Github size={24} />} label="GitHub" />
+            <SocialLink href={user.social.linkedin} icon={<Linkedin size={24} />} label="LinkedIn" />
+            <SocialLink href={`mailto:${user.email}`} icon={<Mail size={24} />} label="Email" />
+            <SocialLink href={user.social.leetcode} icon={<Code size={24} />} label="LeetCode" />
           </div>
-        </section>
 
-        {/* Projects Section */}
-        <section id="projects" className="py-20">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Projects</h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, index) => (
-              <div key={index} className="bg-gray-800 rounded-xl overflow-hidden shadow-lg group transform hover:-translate-y-2 transition-transform duration-300">
-                <img src={project.image} alt={project.title} className="w-full h-48 object-cover"/>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2 text-teal-400">{project.title}</h3>
-                  <p className="text-gray-400 mb-4 text-sm h-24 overflow-y-auto">{project.description}</p>
-                  <div className="flex space-x-4">
-                    {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="bg-teal-500 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-teal-600 transition-colors text-sm">Live Demo</a>}
-                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="bg-gray-700 text-white px-4 py-2 rounded-lg font-semibold hover:bg-gray-600 transition-colors text-sm">GitHub</a>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Skills Section */}
-        <section id="skills" className="py-20">
-          <h2 className="text-3xl font-bold text-center mb-12 text-white">Skills & Expertise</h2>
-          <div className="max-w-4xl mx-auto flex flex-wrap justify-center gap-4">
-            {skills.map((skill, index) => (
-              <div key={index} className="flex items-center bg-gray-800 text-gray-300 py-2 px-4 rounded-lg shadow-md hover:bg-gray-700 hover:text-teal-400 transition-colors">
-                {skill.icon}
-                <span className="ml-2">{skill.name}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-        
-        {/* Contact Section */}
-        <section id="contact" className="py-20 text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">Get In Touch</h2>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto">I'm currently looking for new opportunities and my inbox is always open. Whether you have a question or just want to say hi, I'll try my best to get back to you!</p>
-            <a href={`mailto:${user.email}`} className="inline-block bg-teal-500 text-gray-900 font-bold py-3 px-8 rounded-lg text-lg hover:bg-teal-600 transition-transform transform hover:scale-105">
-                Say Hello
+          <div className="pt-8">
+            <a href="/Ayush_Srivastava_Resume.pdf" download className="bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 px-8 rounded-full transition-all hover:shadow-lg inline-block">
+              Download Resume
             </a>
-        </section>
-
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 border-t border-gray-700">
-          <div className="container mx-auto px-6 py-6 text-center text-gray-500">
-              <p>&copy; {new Date().getFullYear()} {user.name}. All rights reserved.</p>
-               <div className="flex justify-center space-x-4 mt-4">
-                  <a href={user.social.github} target="_blank" rel="noopener noreferrer" className="hover:text-teal-400 transition-colors"><Github size={20} /></a>
-                  <a href={user.social.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-teal-400 transition-colors"><Linkedin size={20} /></a>
-                  <a href={`mailto:${user.email}`} className="hover:text-teal-400 transition-colors"><Mail size={20} /></a>
-                  <a href={`tel:${user.phone}`} className="hover:text-teal-400 transition-colors"><Smartphone size={20} /></a>
-               </div>
           </div>
-      </footer>
+        </div>
+
+        <div className="flex-1 flex justify-center md:justify-end relative">
+          <div className="relative w-72 h-72 md:w-96 md:h-96">
+            <div className="absolute inset-0 bg-teal-200 dark:bg-teal-900 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+            <img
+              src={user.profilePicture}
+              alt={user.name}
+              className="rounded-2xl shadow-2xl w-full h-full object-cover relative z-10 border-2 border-white dark:border-zinc-800 rotate-3 hover:rotate-0 transition-transform duration-500"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Recent Projects */}
+      <section>
+        <div className="flex justify-between items-end mb-8">
+          <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Recent Projects</h2>
+          <Link href="/projects" className="text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-1">
+            View all <ArrowRight size={16} />
+          </Link>
+        </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          {recentProjects.map((project, index) => (
+            <div key={index} className="group bg-white dark:bg-zinc-900 rounded-xl overflow-hidden border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-xl transition-all duration-300">
+              <div className="h-48 overflow-hidden">
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400">{project.title}</h3>
+                <p className="text-zinc-600 dark:text-zinc-400 text-sm line-clamp-2">{project.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Latest Blog Posts */}
+      {latestPosts.length > 0 && (
+        <section>
+          <div className="flex justify-between items-end mb-8">
+            <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Latest from Blog</h2>
+            <Link href="/blog" className="text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-1">
+              Read more <ArrowRight size={16} />
+            </Link>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6">
+            {latestPosts.map((post) => (
+              <Link href={`/blog/${post.slug}`} key={post._id} className="block group">
+                <article className="bg-white dark:bg-zinc-900 p-6 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-md transition-all">
+                  <h3 className="text-xl font-bold mb-2 text-zinc-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                    {post.title}
+                  </h3>
+                  <time className="text-sm text-zinc-500 dark:text-zinc-400 mb-3 block">
+                    {new Date(post.date).toLocaleDateString()}
+                  </time>
+                  <p className="text-zinc-600 dark:text-zinc-300 text-sm line-clamp-2">
+                    {post.excerpt || post.content.substring(0, 100)}...
+                  </p>
+                </article>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
+  );
+}
+
+function SocialLink({ href, icon, label }) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="p-3 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-700 dark:text-zinc-300 hover:bg-teal-100 dark:hover:bg-teal-900 hover:text-teal-600 dark:hover:text-teal-400 transition-all hover:-translate-y-1"
+      aria-label={label}
+    >
+      {icon}
+    </a>
   );
 }
