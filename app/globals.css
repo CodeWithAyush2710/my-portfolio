@@ -9,8 +9,11 @@
   }
 
   .dark {
-    --background: #09090b;
-    --foreground: #fafafa;
+    --background: #2C2C2C;
+    --foreground: #E4E4E4;
+    --muted-cyan: #A8DADC;
+    --muted-pink: #FFC1CC;
+    --muted-lavender: #B39CD0;
   }
 }
 

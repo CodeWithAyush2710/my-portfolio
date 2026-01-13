@@ -33,7 +33,7 @@ export default async function Home() {
       <section className="min-h-[70vh] flex flex-col md:flex-row items-center justify-between gap-12 pt-10">
         <div className="flex-1 space-y-6 text-center md:text-left">
           <div>
-            <h2 className="text-xl text-teal-600 dark:text-teal-400 font-medium mb-2">Hello, I'm</h2>
+            <h2 className="text-xl text-teal-600 dark:text-[#A8DADC] font-medium mb-2">Hello, I'm</h2>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-zinc-900 dark:text-white mb-4">
               {user.name}
             </h1>
@@ -54,7 +54,7 @@ export default async function Home() {
           </div>
 
           <div className="pt-8">
-            <a href="/Ayush_Srivastava_Resume.pdf" download className="bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 px-8 rounded-full transition-all hover:shadow-lg inline-block">
+            <a href="/Ayush_Srivastava_Resume.pdf" download className="bg-teal-600 hover:bg-teal-700 dark:bg-[#B39CD0] dark:hover:bg-[#a08bc0] dark:text-zinc-900 text-white font-medium py-3 px-8 rounded-full transition-all hover:shadow-lg inline-block">
               Download Resume
             </a>
           </div>
@@ -62,7 +62,7 @@ export default async function Home() {
 
         <div className="flex-1 flex justify-center md:justify-end relative">
           <div className="relative w-72 h-72 md:w-96 md:h-96">
-            <div className="absolute inset-0 bg-teal-200 dark:bg-teal-900 rounded-full blur-3xl opacity-30 animate-pulse"></div>
+            <div className="absolute inset-0 bg-teal-200 dark:bg-[#A8DADC] rounded-full blur-3xl opacity-30 animate-pulse"></div>
             <img
               src={user.profilePicture}
               alt={user.name}
@@ -76,7 +76,7 @@ export default async function Home() {
       <section>
         <div className="flex justify-between items-end mb-8">
           <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Recent Projects</h2>
-          <Link href="/projects" className="text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-1">
+          <Link href="/projects" className="text-teal-600 dark:text-[#A8DADC] hover:underline flex items-center gap-1">
             View all <ArrowRight size={16} />
           </Link>
         </div>
@@ -91,7 +91,7 @@ export default async function Home() {
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400">{project.title}</h3>
+                <h3 className="text-lg font-bold text-zinc-900 dark:text-white mb-2 group-hover:text-teal-600 dark:group-hover:text-[#A8DADC]">{project.title}</h3>
                 <p className="text-zinc-600 dark:text-zinc-400 text-sm line-clamp-2">{project.description}</p>
               </div>
             </div>
@@ -104,7 +104,7 @@ export default async function Home() {
         <section>
           <div className="flex justify-between items-end mb-8">
             <h2 className="text-3xl font-bold text-zinc-900 dark:text-white">Latest from Blog</h2>
-            <Link href="/blog" className="text-teal-600 dark:text-teal-400 hover:underline flex items-center gap-1">
+            <Link href="/blog" className="text-teal-600 dark:text-[#A8DADC] hover:underline flex items-center gap-1">
               Read more <ArrowRight size={16} />
             </Link>
           </div>
@@ -112,7 +112,7 @@ export default async function Home() {
             {latestPosts.map((post) => (
               <Link href={`/blog/${post.slug}`} key={post._id} className="block group">
                 <article className="bg-white dark:bg-zinc-900 p-6 rounded-xl border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-md transition-all">
-                  <h3 className="text-xl font-bold mb-2 text-zinc-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                  <h3 className="text-xl font-bold mb-2 text-zinc-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-[#A8DADC] transition-colors">
                     {post.title}
                   </h3>
                   <time className="text-sm text-zinc-500 dark:text-zinc-400 mb-3 block">
@@ -137,7 +137,7 @@ function SocialLink({ href, icon, label }) {
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="p-3 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-700 dark:text-zinc-300 hover:bg-teal-100 dark:hover:bg-teal-900 hover:text-teal-600 dark:hover:text-teal-400 transition-all hover:-translate-y-1"
+      className="p-3 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-700 dark:text-zinc-300 hover:bg-teal-100 dark:hover:bg-[#2C2C2C] hover:text-teal-600 dark:hover:text-[#A8DADC] transition-all hover:-translate-y-1"
       aria-label={label}
     >
       {icon}

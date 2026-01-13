@@ -32,7 +32,7 @@ export default function Navbar() {
     return (
         <nav className="sticky top-0 z-50 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md">
             <div className="container mx-auto px-6 h-16 flex items-center justify-between">
-                <Link href="/" className="text-xl font-bold tracking-tight hover:text-teal-600 dark:hover:text-teal-400 transition-colors">
+                <Link href="/" className="text-xl font-bold tracking-tight hover:text-teal-600 dark:hover:text-[#A8DADC] transition-colors">
                     Ayush Srivastava
                 </Link>
 
@@ -42,9 +42,9 @@ export default function Navbar() {
                         <Link
                             key={link.name}
                             href={link.href}
-                            className={`text-sm font-medium transition-colors hover:text-teal-600 dark:hover:text-teal-400 ${pathname === link.href
-                                    ? "text-teal-600 dark:text-teal-400"
-                                    : "text-zinc-600 dark:text-zinc-400"
+                            className={`text-sm font-medium transition-colors hover:text-teal-600 dark:hover:text-[#A8DADC] ${pathname === link.href
+                                ? "text-teal-600 dark:text-[#A8DADC]"
+                                : "text-zinc-600 dark:text-zinc-400"
                                 }`}
                         >
                             {link.name}
@@ -87,8 +87,8 @@ export default function Navbar() {
                                 href={link.href}
                                 onClick={() => setIsOpen(false)}
                                 className={`text-sm font-medium transition-colors hover:text-teal-600 dark:hover:text-teal-400 ${pathname === link.href
-                                        ? "text-teal-600 dark:text-teal-400"
-                                        : "text-zinc-600 dark:text-zinc-400"
+                                    ? "text-teal-600 dark:text-teal-400"
+                                    : "text-zinc-600 dark:text-zinc-400"
                                     }`}
                             >
                                 {link.name}
