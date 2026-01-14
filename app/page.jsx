@@ -125,7 +125,7 @@ export default async function Home() {
                   <h3 className="text-xl font-bold mb-2 text-zinc-900 dark:text-white group-hover:text-cyan-500 transition-colors">
                     {post.title}
                   </h3>
-                  <time className="text-sm text-zinc-500 dark:text-zinc-400 mb-3 block">
+                  <time className="text-sm text-zinc-500 dark:text-zinc-400 mb-3 block" suppressHydrationWarning>
                     {new Date(post.date).toLocaleDateString()}
                   </time>
                   <p className="text-zinc-600 dark:text-zinc-300 text-sm line-clamp-2">

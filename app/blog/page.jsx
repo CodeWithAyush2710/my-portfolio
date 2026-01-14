@@ -31,28 +31,28 @@ export default async function Blog() {
 
     return (
         <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold mb-12 text-center text-gray-900 dark:text-white">Blog</h1>
+            <h1 className="text-4xl font-bold mb-12 text-center text-zinc-900 dark:text-white"><span className="text-gradient">Blog</span></h1>
 
             {posts.length === 0 ? (
-                <div className="text-center py-20 bg-gray-50 dark:bg-gray-800 rounded-2xl">
-                    <h3 className="text-xl font-medium text-gray-600 dark:text-gray-300">No posts yet</h3>
-                    <p className="text-gray-500 dark:text-gray-400 mt-2">Check back soon for updates!</p>
+                <div className="text-center py-20 glass rounded-2xl">
+                    <h3 className="text-xl font-medium text-zinc-600 dark:text-zinc-300">No posts yet</h3>
+                    <p className="text-zinc-500 dark:text-zinc-400 mt-2">Check back soon for updates!</p>
                 </div>
             ) : (
                 <div className="grid gap-8">
                     {posts.map((post) => (
                         <Link href={`/blog/${post.slug}`} key={post._id} className="block group">
-                            <article className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-                                <h2 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+                            <article className="glass glass-hover p-8 rounded-2xl transition-all duration-300 hover:-translate-y-1">
+                                <h2 className="text-2xl font-bold mb-3 text-zinc-900 dark:text-white group-hover:text-cyan-500 transition-colors">
                                     {post.title}
                                 </h2>
-                                <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
-                                    <span>{new Date(post.date || post.createdAt).toLocaleDateString()}</span>
+                                <div className="flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400 mb-4">
+                                    <span suppressHydrationWarning>{new Date(post.date || post.createdAt).toLocaleDateString()}</span>
                                 </div>
-                                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                                <p className="text-zinc-600 dark:text-zinc-300 leading-relaxed mb-4">
                                     {post.excerpt || post.content.substring(0, 150) + "..."}
                                 </p>
-                                <span className="text-teal-600 dark:text-teal-400 font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
+                                <span className="text-cyan-600 dark:text-cyan-400 font-medium text-sm flex items-center gap-1 group-hover:gap-2 transition-all">
                                     Read article &rarr;
                                 </span>
                             </article>
