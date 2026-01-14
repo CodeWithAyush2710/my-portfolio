@@ -1,4 +1,4 @@
-import { education, experience, achievements, responsibilities } from '@/lib/data';
+import { education, experience } from '@/lib/data';
 import { Briefcase, GraduationCap, Award, Users } from 'lucide-react';
 
 export default function Works() {
@@ -7,24 +7,24 @@ export default function Works() {
 
             {/* Experience Section */}
             <section>
-                <h2 className="text-3xl font-bold mb-8 flex items-center gap-3 text-gray-900 dark:text-white">
-                    <Briefcase className="text-teal-600 dark:text-teal-400" /> Experience
+                <h2 className="text-3xl font-bold mb-8 flex items-center gap-3 text-zinc-900 dark:text-white">
+                    <Briefcase className="text-cyan-600 dark:text-cyan-400" /> <span className="text-gradient">Experience</span>
                 </h2>
-                <div className="space-y-12 border-l-2 border-gray-200 dark:border-gray-800 ml-3 pl-8 relative">
+                <div className="space-y-12 border-l-2 border-zinc-200 dark:border-zinc-800 ml-3 pl-8 relative">
                     {experience.map((job, index) => (
                         <div key={index} className="relative">
-                            <span className="absolute -left-[41px] top-1 h-6 w-6 rounded-full bg-teal-100 dark:bg-teal-900 border-4 border-white dark:border-gray-950 flex items-center justify-center">
-                                <div className="w-2 h-2 rounded-full bg-teal-600 dark:bg-teal-400"></div>
+                            <span className="absolute -left-[41px] top-1 h-6 w-6 rounded-full bg-cyan-100 dark:bg-cyan-900 border-4 border-white dark:border-zinc-950 flex items-center justify-center">
+                                <div className="w-2 h-2 rounded-full bg-cyan-600 dark:bg-cyan-400"></div>
                             </span>
-                            <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow">
+                            <div className="glass glass-hover p-6 rounded-xl relative">
                                 <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white">{job.role}</h3>
-                                    <span className="text-sm font-medium px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-600 dark:text-gray-300 w-fit mt-2 md:mt-0">
+                                    <h3 className="text-xl font-bold text-zinc-900 dark:text-white">{job.role}</h3>
+                                    <span className="text-sm font-medium px-3 py-1 bg-zinc-100 dark:bg-white/10 rounded-full text-zinc-600 dark:text-zinc-300 w-fit mt-2 md:mt-0">
                                         {job.period}
                                     </span>
                                 </div>
-                                <p className="text-lg text-teal-600 dark:text-teal-400 font-medium mb-3">{job.company}</p>
-                                <ul className="space-y-2 text-gray-600 dark:text-gray-400 list-disc list-inside">
+                                <p className="text-lg text-cyan-600 dark:text-cyan-400 font-medium mb-3">{job.company}</p>
+                                <ul className="space-y-2 text-zinc-600 dark:text-zinc-300 list-disc list-inside">
                                     {job.description.map((point, i) => (
                                         <li key={i}>{point}</li>
                                     ))}
@@ -37,18 +37,18 @@ export default function Works() {
 
             {/* Education Section */}
             <section>
-                <h2 className="text-3xl font-bold mb-8 flex items-center gap-3 text-gray-900 dark:text-white">
-                    <GraduationCap className="text-teal-600 dark:text-teal-400" /> Education
+                <h2 className="text-3xl font-bold mb-8 flex items-center gap-3 text-zinc-900 dark:text-white">
+                    <GraduationCap className="text-purple-600 dark:text-purple-400" /> <span className="text-gradient">Education</span>
                 </h2>
                 <div className="grid gap-6">
                     {education.map((edu, index) => (
-                        <div key={index} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 flex flex-col md:flex-row justify-between md:items-center">
+                        <div key={index} className="glass glass-hover p-6 rounded-xl flex flex-col md:flex-row justify-between md:items-center">
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white">{edu.institution}</h3>
-                                <p className="text-teal-600 dark:text-teal-400 font-medium">{edu.degree}</p>
-                                <p className="text-gray-500 dark:text-gray-400 text-sm mt-1">{edu.details}</p>
+                                <h3 className="text-xl font-bold text-zinc-900 dark:text-white">{edu.institution}</h3>
+                                <p className="text-purple-600 dark:text-purple-400 font-medium">{edu.degree}</p>
+                                <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-1">{edu.details}</p>
                             </div>
-                            <span className="text-sm font-medium px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-gray-600 dark:text-gray-300 w-fit mt-4 md:mt-0">
+                            <span className="text-sm font-medium px-3 py-1 bg-zinc-100 dark:bg-white/10 rounded-full text-zinc-600 dark:text-zinc-300 w-fit mt-4 md:mt-0">
                                 {edu.period}
                             </span>
                         </div>
@@ -56,8 +56,8 @@ export default function Works() {
                 </div>
             </section>
 
-            <div className="grid md:grid-cols-2 gap-10">
-                {/* Achievements */}
+            {/* <div className="grid md:grid-cols-2 gap-10">
+                {/* Achievements }
                 <section>
                     <h2 className="text-2xl font-bold mb-6 flex items-center gap-3 text-gray-900 dark:text-white">
                         <Award className="text-teal-600 dark:text-teal-400" /> Achievements
@@ -72,7 +72,7 @@ export default function Works() {
                     </div>
                 </section>
 
-                {/* Responsibilities */}
+                {/* Responsibilities }
                 <section>
                     <h2 className="text-2xl font-bold mb-6 flex items-center gap-3 text-gray-900 dark:text-white">
                         <Users className="text-teal-600 dark:text-teal-400" /> Responsibilities
@@ -90,7 +90,7 @@ export default function Works() {
                         ))}
                     </div>
                 </section>
-            </div>
+            </div> */}
 
         </div>
     );
