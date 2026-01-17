@@ -76,7 +76,7 @@ export default function Projects() {
                                     {project.description}
                                 </p>
                                 <div className="flex justify-between items-center mt-auto pt-4 border-t border-zinc-500/10">
-                                    <span className="text-xs font-semibold text-cyan-600 dark:text-cyan-400">Full Stack</span>
+                                    <span className="text-xs font-semibold text-cyan-600 dark:text-cyan-400">{project.tech}</span>
                                     <button
                                         onClick={(e) => {
                                             e.stopPropagation();
